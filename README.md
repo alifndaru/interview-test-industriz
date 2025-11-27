@@ -196,11 +196,31 @@ Setelah semua berjalan, Anda bisa akses:
    psql -d todo_db -c "\dt"
    ```
 
-## 🧪 Menjalankan Tests
-```bash
-cd backend
-go test ./...
-```
+## 🧪 Testing
+
+### Backend Testing
+Saat ini backend belum memiliki unit tests yang diimplementasikan. Ini adalah salah satu area untuk improvement di masa depan.
+
+**Testing yang bisa dilakukan:**
+1. **Manual API Testing** menggunakan cURL atau Postman
+2. **Database Connection Testing** - pastikan aplikasi bisa connect ke database
+3. **Functional Testing** - test semua endpoints secara manual
+
+### Frontend Testing
+Frontend juga belum memiliki automated tests, namun bisa dilakukan testing manual:
+
+1. **Browser Testing** - test UI di berbagai browser
+2. **Responsive Testing** - test di berbagai ukuran screen
+3. **User Flow Testing** - test complete user journey
+
+### Manual Testing Checklist
+- [ ] Backend API berjalan di port 3030
+- [ ] Database connection berhasil
+- [ ] Frontend berjalan di port 5173
+- [ ] CRUD operations untuk todos bekerja
+- [ ] CRUD operations untuk categories bekerja
+- [ ] Search functionality bekerja
+- [ ] Pagination bekerja
 
 ## 📚 API Documentation
 
@@ -1162,9 +1182,9 @@ CREATE TABLE categories (
 
 ### 1. What did you choose to unit test and why?
 
-#### Functions/Methods yang memiliki tests:
+#### Current Testing Status:
 
-Meskipun dalam implementasi saat ini belum ada comprehensive unit tests, berikut adalah strategy yang akan digunakan:
+**Saat ini belum ada unit tests yang diimplementasikan** dalam project ini karena keterbatasan waktu dalam development. Namun berikut adalah strategy testing yang akan digunakan jika ada waktu lebih:
 
 **Backend Testing Strategy:**
 
@@ -1317,11 +1337,14 @@ describe('useTodos Hook', () => {
 
 #### Technical Debt yang akan diatasi:
 
-**1. Comprehensive Testing:**
-- **Backend Unit Tests**: Service dan repository layer testing (+10 bonus points)
-- **Frontend Testing**: Component, hook, dan integration tests
+**1. Comprehensive Testing (Priority #1):**
+- **Backend Unit Tests**: Implementasi testing untuk service dan repository layer (+10 bonus points)
+  - Repository layer tests untuk database operations
+  - Service layer tests untuk business logic
+  - Controller tests untuk HTTP handling
+- **Frontend Testing**: Component, hook, dan integration tests dengan Jest/React Testing Library
 - **E2E Testing**: Cypress atau Playwright untuk full user journey testing
-- **API Testing**: Postman collections atau automated API tests
+- **API Testing**: Postman collections atau automated API tests dengan Newman
 
 **2. Advanced Error Handling:**
 ```go
