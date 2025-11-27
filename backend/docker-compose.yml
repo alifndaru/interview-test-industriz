@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: todo_postgres
+    environment:
+      POSTGRES_USER: todouser
+      POSTGRES_PASSWORD: todopass123
+      POSTGRES_DB: todo_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - todo_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U todouser -d todo_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Go Application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: todo_app
+    environment:
+      - PORT=3030
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=todouser
+      - DB_PASSWORD=todopass123
+      - DB_NAME=todo_db
+    ports:
+      - "3030:3030"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - todo_network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  todo_network:
+    driver: bridge
